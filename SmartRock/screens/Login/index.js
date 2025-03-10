@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
 import LoginStyles from './Styles';
@@ -10,18 +10,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState('admin');
 
   const handleLogin = () => {
-    if (username === 'Admin' && password === 'admin') {
-      alert('Login Successful');
-      navigation.navigate('HomePage');
+    if (username.toLowerCase() === 'admin' && password === 'admin') {
+      Alert.alert('Success', 'Login Successful', [
+        { text: 'OK', onPress: () => navigation.navigate('HomePage') }
+      ]);
     } else {
-      alert('Invalid Credentials');
+      Alert.alert('Error', 'Invalid Credentials');
     }
   };
 
   return (
     <View style={LoginStyles.container}>
-      {/* <Image source={require('../assets/logo.png')} style={styles.logo} /> */}
-
       <Text style={LoginStyles.subtitle}>
         Real-time Concrete Strength & Temperature
       </Text>
@@ -33,6 +32,7 @@ export default function LoginPage() {
           value={username}
           onChangeText={setUsername}
           placeholder="Email or username*"
+          autoCapitalize="none"
         />
 
         <TextInput 

@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LandingPage from './screens/Landing';
 import LoginPage from './screens/Login';
+import HomePage from './screens/Home';
+import NewProject from './screens/NewProject';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +18,8 @@ export default function App() {
         <Stack.Screen name="LandingPage" component={LandingPage} />
         <Stack.Screen name="Login" component={LoginPage}
          options={{ gestureEnabled: true,}}  />
+        <Stack.Screen name="HomePage" component={HomePage} />
+        <Stack.Screen name="NewProject" component={NewProject} />
       </Stack.Navigator>
     </NavigationContainer>
   );
