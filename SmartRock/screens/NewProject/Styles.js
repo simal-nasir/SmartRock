@@ -42,7 +42,7 @@ export const NewProjectStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   saveButton: {
-    backgroundColor: '#90A98C',
+    backgroundColor: 'green',
     padding: 15,
     borderRadius: 6,
     alignItems: 'center',

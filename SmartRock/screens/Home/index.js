@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import HomeStyles from './Styles';
 import { useNavigation } from '@react-navigation/native';
 
-const projects = [
-  { id: '1', name: 'app', sections: 'No Sections', updated: 'Updated never' }
-];
-
 const HomePage = () => {
   const navigation = useNavigation();
+  const [projects, setProjects] = useState([]);
 
   return (
     <View style={HomeStyles.container}>
       <View style={HomeStyles.header}>
-        <TouchableOpacity >
+        <TouchableOpacity>
           <Feather name="menu" size={24} color="white" style={{ marginTop: 23 }} />
         </TouchableOpacity>
         <Text style={[HomeStyles.headerTitle, { marginTop: 25 }]}>Smart</Text>
@@ -25,14 +22,12 @@ const HomePage = () => {
 
       <Text style={HomeStyles.subHeader}>Active Projects</Text>
 
-      {/* Search Bar */}
       <View style={HomeStyles.searchContainer}>
         <Ionicons name="search" size={20} color="gray" style={HomeStyles.searchIcon} />
         <TextInput placeholder="Search" style={HomeStyles.searchInput} />
         <Feather name="filter" size={20} color="gray" />
       </View>
 
-      {/* Project List */}
       <FlatList
         data={projects}
         keyExtractor={(item) => item.id}
@@ -50,8 +45,10 @@ const HomePage = () => {
         )}
       />
 
-      {/* New Project Button */}
-      <TouchableOpacity style={HomeStyles.newProjectButton} onPress={() => navigation.navigate('NewProject')}>
+      <TouchableOpacity
+        style={HomeStyles.newProjectButton}
+        onPress={() => navigation.navigate('NewProject', { setProjects })}
+      >
         <Feather name="plus" size={20} color="white" />
         <Text style={HomeStyles.newProjectText}>New Project</Text>
       </TouchableOpacity>

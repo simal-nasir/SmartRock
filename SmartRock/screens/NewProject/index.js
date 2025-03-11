@@ -1,48 +1,61 @@
+import { useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NewProjectStyles as styles } from './Styles'
-import { Ionicons } from '@expo/vector-icons';
+import { NewProjectStyles as styles } from './Styles';
 
 const NewProject = () => {
+  const route = useRoute();
   const navigation = useNavigation();
+
+  const setProjects = route.params?.setProjects || (() => {});
+
   const [projectName, setProjectName] = useState('');
   const [projectLocation, setProjectLocation] = useState('');
 
+  const handleSave = () => {
+    if (!projectName) return;
+
+    const newProject = {
+      id: Date.now().toString(),
+      name: projectName,
+      sections: 'No Sections',
+      updated: 'Updated just now',
+    };
+
+    setProjects((prevProjects) => [...prevProjects, newProject]);
+    navigation.goBack();
+  };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="close" size={28} color="black" />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>New Project</Text>
       </View>
 
-      {/* Input Fields */}
       <TextInput
         style={styles.input}
-        placeholder="Project Name*"
         value={projectName}
         onChangeText={setProjectName}
+        placeholder="Project Name"
+        placeholderTextColor="#888"
       />
-
       <TextInput
         style={styles.input}
-        placeholder="Project Location"
         value={projectLocation}
         onChangeText={setProjectLocation}
+        placeholder="Project Location"
+        placeholderTextColor="#888"
       />
 
-      {/* Location Description */}
       <Text style={styles.locationText}>
-        Location of your project will be used to derive ambient conditions.{' '}
-        <Text style={styles.useLocation}>Use my location</Text> use my location{' '}
-        <Text style={styles.selectMap}>select on map.</Text>
+        Location of your project will be used to derive ambient conditions. <Text style={styles.useLocation}>Use my location</Text> use my location <Text style={styles.selectMap}>select on map.</Text>
       </Text>
 
-      {/* Save Button */}
-      <TouchableOpacity style={styles.saveButton} disabled={!projectName}>
+      <TouchableOpacity
+        style={[styles.saveButton, !projectName && { backgroundColor: '#ccc' }]}
+        onPress={handleSave}
+        disabled={!projectName}
+      >
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
     </View>
