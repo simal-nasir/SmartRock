@@ -2,6 +2,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { NewProjectStyles as styles } from './Styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NewProject = () => {
   const route = useRoute();
@@ -12,7 +13,7 @@ const NewProject = () => {
   const [projectName, setProjectName] = useState('');
   const [projectLocation, setProjectLocation] = useState('');
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!projectName) return;
 
     const newProject = {
@@ -22,7 +23,15 @@ const NewProject = () => {
       updated: 'Updated just now',
     };
 
-    setProjects((prevProjects) => [...prevProjects, newProject]);
+    setProjects((prevProjects) => {
+      const updatedProjects = [...prevProjects, newProject];
+
+      // Save projects to AsyncStorage
+      AsyncStorage.setItem('projects', JSON.stringify(updatedProjects));
+
+      return updatedProjects;
+    });
+
     navigation.goBack();
   };
 
@@ -48,7 +57,7 @@ const NewProject = () => {
       />
 
       <Text style={styles.locationText}>
-        Location of your project will be used to derive ambient conditions. <Text style={styles.useLocation}>Use my location</Text> use my location <Text style={styles.selectMap}>select on map.</Text>
+        Use current location? <Text style={styles.useLocation}>Yes</Text> | <Text style={styles.selectMap}>Select from Map</Text>
       </Text>
 
       <TouchableOpacity

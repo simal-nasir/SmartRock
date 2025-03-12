@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import HomeStyles from './Styles';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomePage = () => {
   const navigation = useNavigation();
   const [projects, setProjects] = useState([]);
+
+  // Load projects from AsyncStorage when the app starts
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const storedProjects = await AsyncStorage.getItem('projects');
+        if (storedProjects) {
+          setProjects(JSON.parse(storedProjects));
+        }
+      } catch (error) {
+        console.error('Failed to load projects', error);
+      }
+    };
+    loadProjects();
+  }, []);
 
   return (
     <View style={HomeStyles.container}>
@@ -32,16 +48,17 @@ const HomePage = () => {
         data={projects}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={HomeStyles.projectItem}>
+          <TouchableOpacity
+            style={HomeStyles.projectItem}
+            onPress={() => navigation.navigate('ProjectDetail', { project: item })}
+          >
             <View>
               <Text style={HomeStyles.projectName}>{item.name}</Text>
               <Text style={HomeStyles.projectSection}>{item.sections}</Text>
               <Text style={HomeStyles.projectUpdated}>{item.updated}</Text>
             </View>
-            <TouchableOpacity>
-              <Feather name="more-horizontal" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+            <Feather name="more-horizontal" size={24} color="black" />
+          </TouchableOpacity>
         )}
       />
 

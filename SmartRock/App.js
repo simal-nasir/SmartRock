@@ -5,6 +5,7 @@ import LandingPage from './screens/Landing';
 import LoginPage from './screens/Login';
 import HomePage from './screens/Home';
 import NewProject from './screens/NewProject';
+import ProjectDetail from './screens/ProjectDetail';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
          options={{ gestureEnabled: true,}}  />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="NewProject" component={NewProject} />
+        <Stack.Screen name="ProjectDetail" component={ProjectDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
