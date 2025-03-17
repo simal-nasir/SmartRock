@@ -6,6 +6,7 @@ import LoginPage from './screens/Login';
 import HomePage from './screens/Home';
 import NewProject from './screens/NewProject';
 import ProjectDetail from './screens/ProjectDetail';
+import Section from './screens/Section';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="NewProject" component={NewProject} />
         <Stack.Screen name="ProjectDetail" component={ProjectDetail} />
+        <Stack.Screen name="Section" component={Section} />
       </Stack.Navigator>
     </NavigationContainer>
   );
